@@ -44,7 +44,7 @@
 If you have enabled GitHub Pages for this repository, you can flash your device directly from your browser:
 
 1.  Connect your ESP32 to your computer via USB.
-2.  Visit the project's GitHub Pages URL.
+2.  Visit the project's GitHub Pages URL -> https://byghtlaur.github.io/ESPHome-CYD/ .
 3.  Click the **"Flash to Display"** button.
 4.  Follow the prompts to connect and install the pre-compiled `firmware.bin`.
 
