@@ -1,4 +1,4 @@
-# 🖥️ SkyNet Touch Dashboard
+# 🖥️ ESP32 CYD Touch Dashboard
 ### ESP32-Powered Server Rack Monitor & Fan Controller
 
 ![ESPHome Version](https://img.shields.io/badge/ESPHome-2024.x-orange)
