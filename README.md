@@ -1,42 +1,89 @@
-## ESP32 Touch Display: Server Rack & Home Assistant Dashboard
-An advanced ESPHome and LVGL-based touch interface for the ESP32 (ILI9341). This project provides a multi-page dashboard to monitor Home Assistant host metrics, NAS health, and local rack environmentals (temperature/humidity), while providing direct PWM hardware control for rack cooling fans.
+# 🖥️ SkyNet Touch Dashboard
+### ESP32-Powered Server Rack Monitor & Fan Controller
 
-🚀 Features
-Multi-Page LVGL Interface: Smooth navigation between Home, Home Assistant, SkyNAS, Rack Status, and Fan Control pages.
+![ESPHome Version](https://img.shields.io/badge/ESPHome-2024.x-orange)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-Auto-Cycle Mode: Includes a "Pause/Play" feature to automatically rotate through status pages every 10 seconds.
+**SkyNet** is a comprehensive monitoring solution for home server enthusiasts. Built using **ESPHome** and the **LVGL (Light and Versatile Graphics Library)**, it transforms a "Cheap Yellow Display" (CYD) into a tactical command center for your server rack.
 
-Dynamic Hardware Control:
+---
 
-PWM Fan Control: Adjust rack fan speeds via a touch slider or increment buttons (+/- 10%).
+## ✨ Key Features
 
-RPM Monitoring: Real-time feedback of fan speed via pulse counter.
+* **Multi-Page UI**: Dedicated views for Home, Home Assistant host metrics, SkyNAS health, Rack Environmentals, and Fan Control.
+* **Active Hardware Control**: 
+    * **PWM Fan Management**: Adjust speeds via a touch-friendly slider or incremental $+/-$ buttons.
+    * **Real-time RPM Feedback**: Monitor fan tachometer pulses directly on-screen.
+* **Automation & Intelligence**:
+    * **Auto-Cycle Mode**: Automatically rotates through status pages every 10 seconds.
+    * **Smart Backlight**: Includes a 60-second sleep timer to prevent screen burn-in, with wake-on-touch support.
+* **Dynamic Visuals**: 
+    * Gauge arcs change color (blue to red) when CPU or Memory usage exceeds 90%.
+    * Live 4-bar Wi-Fi RSSI signal indicator in the header.
 
-Smart Backlight Management:
+---
 
-Automatic sleep timer (60s) to preserve display life.
+## 🛠️ Hardware Requirements
 
-Wake-on-touch functionality.
+* **Display**: ESP32 with ILI9341 (320x240) and XPT2046 resistive touch.
+* **Sensors**: Integrated with Home Assistant entities for remote data.
+* **Fan Control**: Supports 4-pin PWM fans (requires a logic level shifter or MOSFET for 12V fans).
 
-Home Assistant Integration: Pulls real-time CPU usage, Memory, Temperature, and Humidity data directly from your HA entities.
+| Component | Pin (GPIO) |
+| :--- | :--- |
+| **Backlight PWM** | 21 |
+| **Fan PWM Output** | 27 |
+| **Fan Tachometer (RPM)** | 22 |
+| **TFT SPI (CLK/MOSI/MISO)** | 14 / 13 / 12 |
+| **Touch SPI (CLK/MOSI/MISO)** | 25 / 32 / 39 |
 
-Visual Status Indicators:
+---
 
-Animated gauge arcs for metrics.
+## 🚀 Quick Start (Web Installer)
 
-Dynamic Wi-Fi signal strength bar (RSSI) in the top bar.
+If you have enabled GitHub Pages for this repository, you can flash your device directly from your browser:
 
-Color-coded alerts (labels turn red when CPU/Memory usage exceeds 90%).
+1.  Connect your ESP32 to your computer via USB.
+2.  Visit the project's GitHub Pages URL.
+3.  Click the **"Flash to Display"** button.
+4.  Follow the prompts to connect and install the pre-compiled `firmware.bin`.
 
-🛠 Hardware Requirements
-Controller: ESP32 (designed for standard DevKit or "Cheap Yellow Display" boards).
+---
 
-Display: ILI9341 SPI (320x240 resolution).
+## 💻 Local Installation & Customization
 
-Touch: XPT2046 resistive touch controller.
+If you want to modify the logic or use your own entities:
 
-Peripherals:
+1.  **Clone the Repo**:
+    ```bash
+    git clone [https://github.com/byghtlaur/ESPHome-CYD.git](https://github.com/byghtlaur/ESPHome-CYD.git)
+    ```
+2.  **Configure Secrets**: Create a `secrets.yaml` in the root folder:
+    ```yaml
+    wifi_ssid: "Your_SSID"
+    wifi_password: "Your_Password"
+    api_encryption_key: "Your_Key"
+    ota_password: "Your_Password"
+    ```
+3.  **Update Entities**: Edit `display.yaml` to match your Home Assistant sensor IDs.
+4.  **Deploy**:
+    ```bash
+    esphome run display.yaml
+    ```
 
-PWM-capable 12V/5V Fans (connected via MOSFET/Transistor to GPIO27).
+---
 
-Tachometer (RPM) feedback connected to GPIO22.
+## 📂 Project Structure
+
+* `display.yaml`: The core ESPHome configuration and LVGL logic.
+* `index.html`: Web-based flash installer for GitHub Pages.
+* `manifest.json`: Metadata for the ESP-Web-Tools installer.
+* `firmware.bin`: Pre-compiled binary for immediate deployment.
+
+---
+
+## 🤝 Contributing
+Feel free to fork this project, submit PRs, or report issues. I'm always looking to add more pages (like UPS monitoring or Network throughput)!
+
+---
+*Created with ❤️ by byghtlaur*
