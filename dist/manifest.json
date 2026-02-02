@@ -1,7 +1,7 @@
 {
   "name": "ESP32 Touch Display Dashboard",
   "version": "1.0.0",
-  "home_assistant_domain": "esphome",
+  "home_assistant_domain": "ESP32",
   "new_install_prompt_erase": true,
   "builds": [
     {
