@@ -65,6 +65,7 @@ fan:
   - platform: speed
     output: fan_pwm
     id: rack_fans
+    name: "Rack Fans"
     speed_count: 100
     on_speed_set:
       then:
@@ -569,4 +570,5 @@ sensor:
             update_bar(id(bar_1), s > -90);
             update_bar(id(bar_2), s > -80);
             update_bar(id(bar_3), s > -70);
+
             update_bar(id(bar_4), s > -60);
