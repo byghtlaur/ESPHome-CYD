@@ -1,0 +1,45 @@
+name: Build and Deploy Web Installer
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create secrets.yaml
+        run: |
+          echo "wifi_ssid: ${{ secrets.WIFI_SSID }}" >> secrets.yaml
+          echo "wifi_password: ${{ secrets.WIFI_PASSWORD }}" >> secrets.yaml
+          echo "api_encryption_key: ${{ secrets.API_KEY }}" >> secrets.yaml
+          echo "ota_password: ${{ secrets.OTA_PASSWORD }}" >> secrets.yaml
+
+      - name: Build ESPHome Firmware
+        id: esphome-build
+        uses: esphome/build-action@v6
+        with:
+          yaml-file: display.yaml
+          version: latest
+
+      - name: Move firmware to web root
+        run: |
+          mkdir -p public
+          cp .esphome/build/*/firmware.bin public/firmware.bin
+          # Also copy your installer files if they are in the root
+          cp index.html public/
+          cp manifest.json public/
+          cp wiring.jpg public/ 
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
