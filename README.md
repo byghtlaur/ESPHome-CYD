@@ -23,19 +23,25 @@
 
 ---
 
-## 🛠️ Hardware Requirements
+## 🛠️ Hardware & Wiring
 
-* **Display**: ESP32 with ILI9341 (320x240) and XPT2046 resistive touch.
-* **Sensors**: Integrated with Home Assistant entities for remote data.
-* **Fan Control**: Supports 4-pin PWM fans (requires a logic level shifter or MOSFET for 12V fans).
+To build the SkyNet dashboard, you will need an ESP32-2432S028R (CYD) and a few components for fan control.
 
-| Component | Pin (GPIO) |
-| :--- | :--- |
-| **Backlight PWM** | 21 |
-| **Fan PWM Output** | 27 |
-| **Fan Tachometer (RPM)** | 22 |
-| **TFT SPI (CLK/MOSI/MISO)** | 14 / 13 / 12 |
-| **Touch SPI (CLK/MOSI/MISO)** | 25 / 32 / 39 |
+### 📐 Wiring Diagram
+![Wiring Diagram](wiring.jpg)
+
+> [!CAUTION]
+> **Voltage Safety**: Standard PC fans require **12V**, while the ESP32 operates at **3.3V**. Always use a MOSFET or a dedicated controller for the fan's power line to avoid damaging your ESP32.
+
+### 📍 Pin Mapping
+
+| Component | Pin (GPIO) | Notes |
+| :--- | :--- | :--- |
+| **Backlight PWM** | 21 | Controls screen brightness/sleep |
+| **Fan PWM Output** | 27 | Connected to Fan PWM pin |
+| **Fan Tachometer** | 22 | Connected to Fan RPM pin |
+| **TFT SPI** | 14 / 13 / 12 | CLK / MOSI / MISO |
+| **Touch SPI** | 25 / 32 / 39 | CLK / MOSI / MISO |
 
 ---
 
@@ -43,10 +49,10 @@
 
 If you have enabled GitHub Pages for this repository, you can flash your device directly from your browser:
 
-1.  Connect your ESP32 to your computer via USB.
-2.  Visit the project's GitHub Pages URL -> https://byghtlaur.github.io/ESPHome-CYD/ .
-3.  Click the **"Flash to Display"** button.
-4.  Follow the prompts to connect and install the pre-compiled `firmware.bin`.
+1. Connect your ESP32 to your computer via USB.
+2. Visit: [https://byghtlaur.github.io/ESPHome-CYD/](https://byghtlaur.github.io/ESPHome-CYD/)
+3. Click the **"Flash to Display"** button.
+4. Follow the prompts to connect and install the pre-compiled `firmware.bin`.
 
 ---
 
@@ -54,19 +60,19 @@ If you have enabled GitHub Pages for this repository, you can flash your device 
 
 If you want to modify the logic or use your own entities:
 
-1.  **Clone the Repo**:
+1. **Clone the Repo**:
     ```bash
     git clone [https://github.com/byghtlaur/ESPHome-CYD.git](https://github.com/byghtlaur/ESPHome-CYD.git)
     ```
-2.  **Configure Secrets**: Create a `secrets.yaml` in the root folder:
+2. **Configure Secrets**: Create a `secrets.yaml` in the root folder:
     ```yaml
     wifi_ssid: "Your_SSID"
     wifi_password: "Your_Password"
     api_encryption_key: "Your_Key"
     ota_password: "Your_Password"
     ```
-3.  **Update Entities**: Edit `display.yaml` to match your Home Assistant sensor IDs.
-4.  **Deploy**:
+3. **Update Entities**: Edit `display.yaml` to match your Home Assistant sensor IDs.
+4. **Deploy**:
     ```bash
     esphome run display.yaml
     ```
